@@ -78,6 +78,29 @@ target/
 # Jupyter Notebook
 .ipynb_checkpoints
 
+# I keep tutorial prompts, answers, and debug output outside the public study.
+/notebooks/learning/
+
+# I can recreate market-data caches, so I do not version vendor-dependent files.
+/data/raw/
+/data/processed/
+
+# I use shallow third-party clones only for local reference, not as project code.
+/.references/
+
+# I keep curriculum builders, validators, and learning logs local.
+/scripts/build_learning_notebooks.py
+/scripts/validate_learning_notebooks.py
+/docs/learning_log.md
+
+# I keep local collaboration instructions outside the public repository.
+/AGENTS.md
+
+# I keep personal review notes, CV drafts, and Git guidance local.
+/CV_NOTES.md
+/PUSH_PLAN.md
+/GITHUB_BEGINNER_GUIDE.zh-CN.md
+
 # IPython
 profile_default/
 ipython_config.py
@@ -200,6 +223,7 @@ cython_debug/
 #   and can be added to the global gitignore or merged into this file. However, if you prefer, 
 #   you could uncomment the following to ignore the entire vscode folder
 # .vscode/
+/.vscode/
 # Temporary file for partial code execution
 tempCodeRunnerFile.py
 
