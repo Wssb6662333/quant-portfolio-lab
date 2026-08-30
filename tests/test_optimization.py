@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+import pytest
 
 from quant_portfolio.optimization import minimum_variance_weights
 
@@ -19,3 +20,14 @@ def test_minimum_variance_weights_respect_constraints_and_reduce_risk() -> None:
     assert weights.to_numpy() @ covariance.to_numpy() @ weights.to_numpy() <= (
         equal @ covariance.to_numpy() @ equal
     )
+
+
+def test_minimum_variance_rejects_duplicate_asset_labels() -> None:
+    covariance = pd.DataFrame(
+        np.eye(2),
+        index=["A", "A"],
+        columns=["A", "A"],
+    )
+
+    with pytest.raises(ValueError, match="unique"):
+        minimum_variance_weights(covariance)

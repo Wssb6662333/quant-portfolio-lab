@@ -8,9 +8,12 @@ from scipy.optimize import minimize
 
 
 def equal_weights(columns: pd.Index | list[str] | tuple[str, ...]) -> pd.Series:
+    """Allocate the same weight to every asset label."""
     labels = pd.Index(columns)
     if len(labels) == 0:
         raise ValueError("at least one asset is required")
+    if labels.has_duplicates:
+        raise ValueError("asset labels must be unique")
     return pd.Series(1.0 / len(labels), index=labels, dtype=float)
 
 
@@ -28,6 +31,8 @@ def _validate_covariance(covariance: pd.DataFrame) -> np.ndarray:
         raise ValueError("covariance must be a non-empty labelled DataFrame")
     if not covariance.index.equals(covariance.columns):
         raise ValueError("covariance row and column labels must match")
+    if covariance.index.has_duplicates:
+        raise ValueError("covariance labels must be unique")
     matrix = covariance.to_numpy(dtype=float)
     if not np.isfinite(matrix).all() or not np.allclose(matrix, matrix.T, atol=1e-12):
         raise ValueError("covariance must be finite and symmetric")
@@ -70,7 +75,9 @@ def minimum_variance_weights(
         or weights.min() < -1e-8
         or weights.max() > max_weight + 1e-8
     ):
-        raise RuntimeError("solver returned weights that violate the portfolio constraints")
+        raise RuntimeError(
+            "solver returned weights that violate the portfolio constraints"
+        )
     # Clip only solver-scale numerical noise, then restore the fully invested sum.
     weights = np.clip(weights, 0.0, max_weight)
     weights /= weights.sum()
