@@ -1,0 +1,49 @@
+{
+  "generated_at_utc": "2026-09-01T05:48:30.379451+00:00",
+  "data_source": "Yahoo Finance via yfinance; auto-adjusted daily close",
+  "price_start": "2007-01-03",
+  "price_end": "2025-12-31",
+  "price_observations": 4780,
+  "configuration": {
+    "tickers": [
+      "SPY",
+      "EFA",
+      "EEM",
+      "TLT",
+      "TIP",
+      "LQD",
+      "GLD",
+      "DBC",
+      "VNQ"
+    ],
+    "data_start": "2007-01-01",
+    "data_end": "2026-01-01",
+    "evaluation_start": "2013-01-02",
+    "lookback": 252,
+    "transaction_cost_bps": 10.0,
+    "max_weight": 0.4,
+    "annualization": 252,
+    "var_confidence": 0.95,
+    "var_window": 252,
+    "sensitivity_lookbacks": [
+      126,
+      252,
+      504
+    ],
+    "sensitivity_costs_bps": [
+      0.0,
+      10.0,
+      25.0
+    ]
+  },
+  "versions": {
+    "python": "3.12.10",
+    "quant_portfolio": "0.2.0",
+    "numpy": "2.5.1",
+    "pandas": "3.0.5",
+    "scipy": "1.18.0",
+    "scikit_learn": "1.9.0",
+    "matplotlib": "3.11.1",
+    "yfinance": "1.5.2"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "research_question": "Does Ledoit-Wolf covariance shrinkage improve out-of-sample risk and weight stability relative to sample-covariance minimum variance?",
+  "evaluation_start": "2013-01-02",
+  "evaluation_end": "2025-12-31",
+  "evaluation_observations": 3270,
+  "ledoit_wolf_minus_sample_annual_volatility_percentage_points": 0.004687685228077498,
+  "ledoit_wolf_minus_sample_max_drawdown_percentage_points": -0.17717899061975295,
+  "ledoit_wolf_minus_sample_annual_turnover": -0.02410863320219203,
+  "ledoit_wolf_volatility_reduction_vs_quarterly_equal_weight_pct": 31.80020189793884,
+  "median_covariance_condition_number_reduction_pct": 65.91354945633745,
+  "sensitivity_scenarios_with_lower_volatility_than_sample": 3,
+  "sensitivity_scenarios": 9
+}
