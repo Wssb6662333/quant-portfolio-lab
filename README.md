@@ -3,15 +3,20 @@
 Does a better-conditioned covariance estimate produce a better out-of-sample
 minimum-variance portfolio? I compare the sample covariance matrix with
 scikit-learn's Ledoit-Wolf shrinkage estimator in a causal, quarterly walk-forward
-study. I find a mixed result: shrinkage materially improves numerical conditioning,
-but does not improve risk in my pre-specified main experiment.
+study. Noisy covariance estimates can produce unstable portfolio weights, so this
+comparison tests whether better numerical conditioning also improves realised risk.
+I find a mixed result: shrinkage materially improves numerical conditioning, but
+does not improve risk in my pre-specified main experiment.
+
+**Status:** Completed empirical study with reproducible results and an executed
+research notebook.
 
 ## Main finding
 
 I evaluate **3,270 daily observations from 2013-01-02 to 2025-12-31** across nine
 cross-asset ETFs. I report all figures below net of 10 bp costs on traded notional.
 
-| Strategy | CAGR | Volatility | Sharpe | Max drawdown | Annual turnover |
+| Strategy | CAGR | Volatility | Sharpe | Max drawdown | Annual turnover (times/year) |
 |---|---:|---:|---:|---:|---:|
 | Buy & hold 1/N | 6.12% | 10.14% | 0.64 | -22.95% | 0.08 |
 | Quarterly 1/N | 5.44% | 9.15% | 0.63 | -20.53% | 0.24 |
@@ -21,7 +26,8 @@ cross-asset ETFs. I report all figures below net of 10 bp costs on traded notion
 | SPY | **14.79%** | 16.94% | **0.90** | -33.72% | 0.08 |
 
 In my experiment, Ledoit-Wolf reduced the median covariance condition number by
-**65.9%** (180.3 to 61.5) and annual turnover by 0.024 versus sample covariance.
+**65.9%** (180.3 to 61.5) and annual turnover by 0.024 per year versus sample
+covariance.
 However, its main-setting volatility was 0.005 percentage points higher and its
 drawdown was 0.18 percentage points deeper. I observe lower volatility in only
 **3 of 9** lookback-cost scenarios, all at the 504-day lookback. I therefore find
@@ -45,13 +51,14 @@ evidence of better conditioning, not a general out-of-sample performance advanta
 - Robustness: I cross 126/252/504-day lookbacks with 0/10/25 bp costs and evaluate
   three pre-specified market regimes.
 - Risk validation: I report positive-loss historical 95% VaR/CVaR and 252-day
-  rolling VaR. The two minimum-variance portfolios produced 5.33% and 5.50% breach
-  rates over 3,018 forecasts; Kupiec p-values were 0.404 and 0.214.
+  rolling VaR. Sample-covariance and Ledoit-Wolf minimum variance produced 5.33%
+  and 5.50% breach rates over 3,018 forecasts, respectively; Kupiec p-values were
+  0.404 and 0.214.
 
 I use scikit-learn's Ledoit-Wolf estimator and SciPy's SLSQP solver rather than
-presenting either library method as my own. I implement the data contracts, portfolio
-constraints, causal target generation, weight and cost accounting, risk tests,
-experiment grid, and reporting.
+presenting either library method as my own. My code implements data validation,
+constraint setup, causal target generation, weight and cost accounting, risk tests,
+the experiment grid, and reporting.
 
 ## Evidence
 
@@ -73,6 +80,8 @@ experiment grid, and reporting.
 The commands below use Python 3.12 from Windows Git Bash.
 
 ```bash
+git clone https://github.com/Wssb6662333/quant-portfolio-lab.git
+cd quant-portfolio-lab
 py -3.12 -m venv .venv
 ./.venv/Scripts/python.exe -m pip install -e ".[dev]"
 ./.venv/Scripts/python.exe -m pytest -q
